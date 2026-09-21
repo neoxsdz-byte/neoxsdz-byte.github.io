@@ -3,106 +3,159 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Télécharger NeoStock</title>
-<meta name="description" content="Télécharger NeoStock, le logiciel de gestion de stock et de ventes pour les commerces algériens.">
+<title>Télécharger NeoStock — NeoXS Dev</title>
+<meta name="description" content="Télécharger NeoStock pour Windows et Android : gestion de stock, ventes, caisse et livraison pour les commerces algériens.">
 <link rel="icon" href="https://raw.githubusercontent.com/neoxsdz-byte/neostock-releases/main/logos/favicon-32.png">
 <style>
   :root {
     color-scheme: light;
-    --ink: #0f172a;
-    --muted: #64748b;
-    --line: #e2e8f0;
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
+    --ink: #0f172a; --muted: #64748b; --line: #e2e8f0;
+    --primary: #2563eb; --primary-dark: #1d4ed8; --night: #0b1220;
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
-    color: var(--ink);
-    background: #f8fafc;
+  body { margin: 0; font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: #f8fafc; }
+  a { color: var(--primary); }
+
+  /* The bar that follows you from page to page. */
+  .topbar { background: var(--night); position: sticky; top: 0; z-index: 10; }
+  .topbar .inner {
+    max-width: 60rem; margin: 0 auto; padding: .6rem 1.25rem;
+    display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
   }
-  main { max-width: 44rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+  .topbar img { height: 34px; width: auto; display: block; }
+  .topbar nav { display: flex; gap: 1.1rem; margin-inline-start: auto; flex-wrap: wrap; }
+  .topbar nav a { color: #cbd5e1; text-decoration: none; font-size: .95rem; }
+  .topbar nav a:hover { color: #fff; }
+  .topbar nav a.here { color: #fff; font-weight: 600; }
 
-  .brand { display: flex; align-items: center; gap: .75rem; margin-bottom: 2.5rem; }
-  .mark { width: 3.25rem; height: 3.25rem; display: block; }
-  .brand h1 { font-size: 1.35rem; margin: 0; }
-  .brand p { margin: 0; color: var(--muted); font-size: .9rem; }
+  main { max-width: 60rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+  h1 { font-size: 1.7rem; margin: 0 0 .35rem; }
+  .lede { color: var(--muted); margin: 0 0 2rem; }
 
-  .card {
-    background: #fff; border: 1px solid var(--line); border-radius: 1rem;
-    padding: 2rem 1.75rem; box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+  /* One card per platform, side by side where there is room. */
+  .platforms { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .platform {
+    background: #fff; border: 1px solid var(--line); border-radius: 1rem; padding: 1.5rem;
+    display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
   }
-  .card h2 { margin: 0 0 .35rem; font-size: 1.25rem; }
-  .card .sub { margin: 0 0 1.5rem; color: var(--muted); }
+  .platform h2 { font-size: 1.1rem; margin: 0 0 .2rem; }
+  .platform .for { color: var(--muted); font-size: .9rem; margin: 0 0 1.1rem; }
+  .platform .grow { flex: 1; }
 
-  .download {
-    display: inline-flex; align-items: center; gap: .65rem;
+  .button {
+    display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
     background: var(--primary); color: #fff; text-decoration: none;
-    padding: .95rem 1.6rem; border-radius: .75rem; font-weight: 600; font-size: 1.05rem;
+    padding: .8rem 1.25rem; border-radius: .7rem; font-weight: 600; text-align: center;
   }
-  .download:hover { background: var(--primary-dark); }
-  .download[aria-disabled="true"] { background: #94a3b8; pointer-events: none; }
-  .meta { margin: .85rem 0 0; color: var(--muted); font-size: .9rem; }
+  .button:hover { background: var(--primary-dark); }
+  .button.quiet { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+  .button.quiet:hover { background: #f1f5f9; }
+  .button.soon { background: #f1f5f9; color: var(--muted); pointer-events: none; font-weight: 500; }
+  .meta { margin: .7rem 0 0; color: var(--muted); font-size: .85rem; min-height: 1.3em; }
+
+  /* Spun while the page is asking GitHub which version is current. */
+  .spinner {
+    width: 14px; height: 14px; border-radius: 50%; display: inline-block; vertical-align: -2px;
+    border: 2px solid rgba(255, 255, 255, .45); border-top-color: #fff;
+    animation: turn .8s linear infinite; margin-inline-end: .45rem;
+  }
+  .quiet .spinner { border-color: var(--line); border-top-color: var(--primary); }
+  @keyframes turn { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2.4s; } }
 
   .note {
-    margin-top: 1.5rem; padding: .9rem 1rem; border-radius: .7rem;
-    background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: .9rem;
+    margin-top: 1.5rem; padding: .95rem 1.1rem; border-radius: .7rem;
+    background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: .92rem;
   }
+  .note.blue { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
   .note strong { display: block; margin-bottom: .15rem; }
 
-  .phone { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: .95rem; }
-  .phone a { color: var(--primary); }
+  .help { margin-top: 2.5rem; background: #fff; border: 1px solid var(--line); border-radius: 1rem; padding: 1.5rem; }
+  .help h2 { font-size: 1.1rem; margin: 0 0 .75rem; }
+  .help ul { margin: 0; padding: 0; list-style: none; }
+  .help li { margin-bottom: .45rem; }
 
-  footer {
-    margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line);
-    color: var(--muted); font-size: .875rem;
-  }
+  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .875rem; }
   footer a { color: var(--muted); }
 </style>
 </head>
 <body>
+
+<header class="topbar">
+  <div class="inner">
+    <a href="index.html"><img src="https://raw.githubusercontent.com/neoxsdz-byte/neostock-releases/main/logos/neoxs-wide-220.png" alt="NeoXS Dev"></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="index.html#fonctions">Fonctions</a>
+      <a class="here" href="telecharger.html">Télécharger</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="privacy.html">Confidentialité</a>
+    </nav>
+  </div>
+</header>
+
 <main>
-  <div class="brand">
-    <img class="mark" src="https://raw.githubusercontent.com/neoxsdz-byte/neostock-releases/main/logos/neostock-160.png" alt="NeoStock">
-    <div>
-      <h1>NeoStock</h1>
-      <p>Gestion de stock, ventes et caisse — un logiciel NeoXS Dev</p>
+  <h1>Télécharger NeoStock</h1>
+  <p class="lede">Un seul fichier à télécharger, puis à ouvrir. Vos données restent sur votre ordinateur.</p>
+
+  <div class="platforms">
+    <div class="platform">
+      <h2>Windows</h2>
+      <p class="for">Le poste du magasin : caisse, factures, stock et impression.</p>
+      <div class="grow"></div>
+      <a class="button" id="windows" href="https://github.com/neoxsdz-byte/neostock-releases/releases/latest">
+        <span id="windows-label"><span class="spinner"></span>Recherche de la version…</span>
+      </a>
+      <p class="meta" id="windows-meta">Windows 10 ou 11 (64 bits)</p>
+    </div>
+
+    <div class="platform">
+      <h2>Android</h2>
+      <p class="for">Le téléphone comme caisse, scanner de codes-barres et inventaire.</p>
+      <div class="grow"></div>
+      <a class="button quiet" id="android" href="https://github.com/neoxsdz-byte/neostock-releases/releases/latest">
+        <span id="android-label"><span class="spinner"></span>Recherche de la version…</span>
+      </a>
+      <p class="meta" id="android-meta">Android 8 ou plus récent</p>
+    </div>
+
+    <div class="platform">
+      <h2>iPhone et iPad</h2>
+      <p class="for">La même application, sur iOS.</p>
+      <div class="grow"></div>
+      <span class="button soon">Bientôt disponible</span>
+      <p class="meta">En préparation — écrivez-nous pour être prévenu.</p>
     </div>
   </div>
 
-  <div class="card">
-    <h2>Télécharger pour Windows</h2>
-    <p class="sub">Un seul fichier à télécharger, puis à ouvrir. Vos données restent sur votre ordinateur.</p>
-
-    <a class="download" id="download" href="https://github.com/neoxsdz-byte/neostock-releases/releases/latest" aria-disabled="true">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-        <polyline points="7 10 12 15 17 10"></polyline>
-        <line x1="12" y1="15" x2="12" y2="3"></line>
-      </svg>
-      <span id="download-label">Télécharger NeoStock</span>
-    </a>
-    <p class="meta" id="meta">Recherche de la dernière version…</p>
-
-    <div class="note">
-      <strong>Windows peut afficher un avertissement.</strong>
-      Cliquez sur « Informations complémentaires », puis « Exécuter quand même ». NeoStock n'est pas encore
-      signé auprès de Microsoft.
-    </div>
-
-    <p class="phone">
-      Téléphone Android : <a id="apk" href="https://github.com/neoxsdz-byte/neostock-releases/releases/latest">télécharger l'application</a>.
-      À installer depuis le téléphone, en autorisant l'installation depuis cette source.
-    </p>
+  <div class="note">
+    <strong>Windows peut afficher un avertissement à l'installation.</strong>
+    Cliquez sur « Informations complémentaires », puis « Exécuter quand même ». NeoStock n'est pas encore
+    signé auprès de Microsoft.
   </div>
 
+  <div class="note blue">
+    <strong>Sur Android.</strong>
+    Ouvrez le fichier téléchargé depuis le téléphone et autorisez l'installation depuis cette source.
+    L'application du téléphone se met à jour en la retéléchargeant ici ; sur Windows, NeoStock vous
+    propose lui-même les nouvelles versions.
+  </div>
+
+  <section class="help" id="aide">
+    <h2>Une question, un problème à l'installation ?</h2>
+    <ul>
+      <li>Téléphone et WhatsApp : <a href="tel:+213540669465">+213 5 40 66 94 65</a></li>
+      <li>WhatsApp direct : <a href="https://wa.me/213540669465">wa.me/213540669465</a></li>
+      <li>E-mail : <a href="mailto:neoxsdz@gmail.com">neoxsdz@gmail.com</a></li>
+    </ul>
+  </section>
 
   <footer>
     <a href="index.html">NeoXS Dev</a> ·
     <a href="privacy.html">Confidentialité</a> ·
     <a href="terms.html">Conditions</a> ·
-    <a href="mailto:neoxsdz@gmail.com">neoxsdz@gmail.com</a><br>
+    <a href="mailto:neoxsdz@gmail.com">neoxsdz@gmail.com</a> ·
+    <a href="tel:+213540669465">+213 5 40 66 94 65</a><br>
     © NeoXS Dev
   </footer>
 </main>
@@ -110,43 +163,46 @@
 <script>
 /*
  * The page asks GitHub which version is current, so nothing here has to be
- * edited when a new one is published. Until the answer arrives — or if it never
- * does, on a phone with no line — the button still points at the releases page,
- * which is a working, if plainer, way to the same file.
+ * edited when a new one is published. Each button spins while it waits, and
+ * falls back to the releases page if the answer never comes — one more click,
+ * same file.
  */
 (async function () {
-  const button = document.getElementById('download')
-  const label = document.getElementById('download-label')
-  const meta = document.getElementById('meta')
-  const apk = document.getElementById('apk')
-
   const megabytes = bytes => (bytes / 1048576).toFixed(0)
   const day = iso => new Date(iso).toLocaleDateString('fr-DZ', { day: 'numeric', month: 'long', year: 'numeric' })
+
+  const windowsButton = document.getElementById('windows')
+  const windowsLabel = document.getElementById('windows-label')
+  const windowsMeta = document.getElementById('windows-meta')
+  const androidButton = document.getElementById('android')
+  const androidLabel = document.getElementById('android-label')
+  const androidMeta = document.getElementById('android-meta')
 
   try {
     const release = await fetch('https://api.github.com/repos/neoxsdz-byte/neostock-releases/releases/latest')
       .then(answer => answer.json())
-
+    const version = String(release.tag_name || '').replace(/^v/, '')
     const installer = (release.assets || []).find(asset => asset.name.endsWith('.exe'))
     const android = (release.assets || []).find(asset => asset.name.endsWith('.apk'))
+
     if (!installer) throw new Error('no installer on the latest release')
 
-    button.href = installer.browser_download_url
-    button.setAttribute('aria-disabled', 'false')
-    label.textContent = 'Télécharger NeoStock ' + release.tag_name.replace(/^v/, '')
-    meta.textContent = 'Version ' + release.tag_name.replace(/^v/, '')
-      + ' · ' + megabytes(installer.size) + ' Mo · ' + day(release.published_at)
+    windowsButton.href = installer.browser_download_url
+    windowsLabel.textContent = 'Télécharger ' + version
+    windowsMeta.textContent = megabytes(installer.size) + ' Mo · ' + day(release.published_at)
       + ' · Windows 10 ou 11 (64 bits)'
 
     if (android) {
-      apk.href = android.browser_download_url
-      apk.textContent = 'télécharger l\'application (' + megabytes(android.size) + ' Mo)'
+      androidButton.href = android.browser_download_url
+      androidLabel.textContent = 'Télécharger ' + version + ' (APK)'
+      androidMeta.textContent = megabytes(android.size) + ' Mo · Android 8 ou plus récent'
+    } else {
+      androidLabel.textContent = 'Voir les versions'
     }
-
   } catch (problem) {
-    // The releases page is the honest fallback: one more click, same file.
-    button.setAttribute('aria-disabled', 'false')
-    meta.textContent = 'Ouvrir la page des versions pour télécharger la dernière.'
+    windowsLabel.textContent = 'Voir les versions'
+    androidLabel.textContent = 'Voir les versions'
+    windowsMeta.textContent = 'Ouvrir la page des versions pour télécharger la dernière.'
   }
 })()
 </script>
