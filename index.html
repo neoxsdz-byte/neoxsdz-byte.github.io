@@ -29,6 +29,16 @@
   .topbar nav a:hover { color: #fff; }
   .topbar nav a.here { color: #fff; font-weight: 600; }
 
+  /* Three languages, as in the app itself. */
+  .langs { display: flex; gap: .25rem; }
+  .langs button {
+    font: inherit; font-size: .85rem; line-height: 1;
+    padding: .35rem .6rem; border-radius: .45rem; cursor: pointer;
+    background: transparent; color: #94a3b8; border: 1px solid transparent;
+  }
+  .langs button:hover { color: #fff; }
+  .langs button[aria-pressed="true"] { background: #1e293b; color: #fff; border-color: #334155; }
+
   header.hero { background: var(--night); color: #e2e8f0; padding: 3rem 1.25rem 3.25rem; text-align: center; }
   header.hero img.mark { width: 260px; height: auto; display: block; margin: 0 auto 1.25rem; }
   header.hero h1 { margin: 0 0 .5rem; font-size: 1.9rem; letter-spacing: .01em; }
@@ -59,7 +69,7 @@
   .feature:nth-child(even) .words { order: 2; }
   .feature h3 { font-size: 1.15rem; margin: 0 0 .5rem; }
   .feature p { margin: 0 0 .75rem; color: #334155; }
-  .feature ul { margin: 0; padding-left: 1.2rem; color: #334155; }
+  .feature ul { margin: 0; padding-inline-start: 1.2rem; color: #334155; }
   .feature ul li { margin-bottom: .3rem; }
   .shot { border: 1px solid var(--line); border-radius: .85rem; overflow: hidden; background: #fff; box-shadow: 0 6px 24px rgba(15, 23, 42, .08); }
   .shot img { display: block; width: 100%; }
@@ -69,7 +79,7 @@
     .feature:nth-child(even) .words { order: 0; }
   }
 
-  ul.what { margin: 1rem 0 0; padding-left: 1.2rem; color: #334155; columns: 2; column-gap: 2rem; }
+  ul.what { margin: 1rem 0 0; padding-inline-start: 1.2rem; color: #334155; columns: 2; column-gap: 2rem; }
   ul.what li { margin-bottom: .4rem; break-inside: avoid; }
   @media (max-width: 40rem) { ul.what { columns: 1; } }
 
@@ -79,6 +89,10 @@
 
   footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .875rem; }
   footer a { color: var(--muted); }
+
+  /* Arabic reads the other way; the numbers in it stay as they are written. */
+  [dir="rtl"] .feature:nth-child(even) .words { order: 0; }
+  [dir="rtl"] a[href^="tel:"], [dir="rtl"] a[href^="https://wa.me"] { direction: ltr; unicode-bidi: embed; display: inline-block; }
 
   @media (max-width: 30rem) {
     .product { flex-direction: column; }
@@ -92,19 +106,24 @@
   <div class="inner">
     <a href="index.html"><img src="https://raw.githubusercontent.com/neoxsdz-byte/neostock-releases/main/logos/neoxs-wide-220.png" alt="NeoXS Dev"></a>
     <nav>
-      <a class="here" href="index.html">Accueil</a>
-      <a href="#fonctions">Fonctions</a>
-      <a href="telecharger.html">Télécharger</a>
-      <a href="#contact">Contact</a>
-      <a href="privacy.html">Confidentialité</a>
+      <a class="here" href="index.html" data-i18n="nav.home">Accueil</a>
+      <a href="#fonctions" data-i18n="nav.features">Fonctions</a>
+      <a href="telecharger.html" data-i18n="nav.download">Télécharger</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+      <a href="privacy.html" data-i18n="nav.privacy">Confidentialité</a>
     </nav>
+    <div class="langs">
+      <button type="button" data-lang="fr">FR</button>
+      <button type="button" data-lang="ar">عر</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
   </div>
 </header>
 
 <header class="hero">
   <img class="mark" src="https://raw.githubusercontent.com/neoxsdz-byte/neostock-releases/main/logos/neoxs-wide-640.png" alt="NeoXS Dev">
-  <h1>Logiciels de gestion pour les commerces algériens</h1>
-  <p>Des outils qui tournent sur les machines du commerçant, qui gardent ses données chez lui,
+  <h1 data-i18n="hero.title">Logiciels de gestion pour les commerces algériens</h1>
+  <p data-i18n="hero.body">Des outils qui tournent sur les machines du commerçant, qui gardent ses données chez lui,
      et qui parlent la langue de son métier.</p>
 </header>
 
@@ -113,24 +132,24 @@
     <img src="https://raw.githubusercontent.com/neoxsdz-byte/neostock-releases/main/logos/neostock-160.png" alt="NeoStock">
     <div>
       <h2>NeoStock</h2>
-      <p>Stock, ventes, caisse et livraison — sur l'ordinateur du magasin, sans abonnement à Internet
+      <p data-i18n="product.body">Stock, ventes, caisse et livraison — sur l'ordinateur du magasin, sans abonnement à Internet
          pour fonctionner. Facturation conforme aux règles algériennes : TVA, timbre, NIF, NIS, RC, AI.</p>
-      <p><a class="cta" href="telecharger.html">Télécharger NeoStock</a></p>
+      <p><a class="cta" href="telecharger.html" data-i18n="product.cta">Télécharger NeoStock</a></p>
     </div>
   </div>
 
   <section id="fonctions">
-    <h2>Ce que NeoStock fait, écran par écran</h2>
+    <h2 data-i18n="features.title">Ce que NeoStock fait, écran par écran</h2>
 
     <div class="feature">
       <div class="words">
-        <h3>Le magasin d'un coup d'œil</h3>
-        <p>À l'ouverture : ce qui est entré aujourd'hui, ce qui est sorti, la marge, ce qui manque en rayon.
+        <h3 data-i18n="f1.title">Le magasin d'un coup d'œil</h3>
+        <p data-i18n="f1.body">À l'ouverture : ce qui est entré aujourd'hui, ce qui est sorti, la marge, ce qui manque en rayon.
            Les dernières ventes et les derniers achats sont là, sans aller les chercher.</p>
         <ul>
-          <li>Ventes du jour, du mois, bénéfice et solde net</li>
-          <li>Alertes de stock faible, triées par ce qui se vend le plus</li>
-          <li>Vente rapide et achat rapide en un clic</li>
+          <li data-i18n="f1.a">Ventes du jour, du mois, bénéfice et solde net</li>
+          <li data-i18n="f1.b">Alertes de stock faible, triées par ce qui se vend le plus</li>
+          <li data-i18n="f1.c">Vente rapide et achat rapide en un clic</li>
         </ul>
       </div>
       <div class="shot">
@@ -141,14 +160,14 @@
 
     <div class="feature">
       <div class="words">
-        <h3>Le comptoir</h3>
-        <p>Une caisse faite pour aller vite : les articles en vignettes, le scanner de codes-barres,
+        <h3 data-i18n="f2.title">Le comptoir</h3>
+        <p data-i18n="f2.body">Une caisse faite pour aller vite : les articles en vignettes, le scanner de codes-barres,
            le ticket imprimé sur l'imprimante thermique, la facture imprimée sur A4.</p>
         <ul>
-          <li>Clic pour ajouter, clic droit pour retirer</li>
-          <li>Mode scanner : on scanne, on encaisse, on imprime</li>
-          <li>Trois tarifs — détail, gros, VIP — sur le même article</li>
-          <li>Client de passage ou client suivi, au choix</li>
+          <li data-i18n="f2.a">Clic pour ajouter, clic droit pour retirer</li>
+          <li data-i18n="f2.b">Mode scanner : on scanne, on encaisse, on imprime</li>
+          <li data-i18n="f2.c">Trois tarifs — détail, gros, VIP — sur le même article</li>
+          <li data-i18n="f2.d">Client de passage ou client suivi, au choix</li>
         </ul>
       </div>
       <div class="shot">
@@ -159,14 +178,14 @@
 
     <div class="feature">
       <div class="words">
-        <h3>Les articles et le stock</h3>
-        <p>Le catalogue complet, avec les quantités par dépôt et les prix d'achat et de vente.
+        <h3 data-i18n="f3.title">Les articles et le stock</h3>
+        <p data-i18n="f3.body">Le catalogue complet, avec les quantités par dépôt et les prix d'achat et de vente.
            Chaque mouvement laisse une trace, et rien ne bouge sans qu'on sache pourquoi.</p>
         <ul>
-          <li>Plusieurs dépôts, transferts, inventaire</li>
-          <li>Codes-barres et étiquettes à imprimer</li>
-          <li>Import depuis un fichier Excel ou CSV, avec annulation</li>
-          <li>Coût réel par lot (FIFO), donc une marge juste</li>
+          <li data-i18n="f3.a">Plusieurs dépôts, transferts, inventaire</li>
+          <li data-i18n="f3.b">Codes-barres et étiquettes à imprimer</li>
+          <li data-i18n="f3.c">Import depuis un fichier Excel ou CSV, avec annulation</li>
+          <li data-i18n="f3.d">Coût réel par lot (FIFO), donc une marge juste</li>
         </ul>
       </div>
       <div class="shot">
@@ -177,14 +196,14 @@
 
     <div class="feature">
       <div class="words">
-        <h3>Les documents</h3>
-        <p>Devis, proforma, bon de livraison, facture, avoir, commande client — et du côté fournisseur,
+        <h3 data-i18n="f4.title">Les documents</h3>
+        <p data-i18n="f4.body">Devis, proforma, bon de livraison, facture, avoir, commande client — et du côté fournisseur,
            bon de commande, réception et facture. Le même carnet, en français, en arabe ou en anglais.</p>
         <ul>
-          <li>Numérotation suivie, statut de paiement, reste à payer</li>
-          <li>TVA et timbre fiscal calculés selon les règles algériennes</li>
-          <li>Montant en toutes lettres sur la facture imprimée</li>
-          <li>Colis confiés aux sociétés de livraison depuis la vente, sans ressaisie</li>
+          <li data-i18n="f4.a">Numérotation suivie, statut de paiement, reste à payer</li>
+          <li data-i18n="f4.b">TVA et timbre fiscal calculés selon les règles algériennes</li>
+          <li data-i18n="f4.c">Montant en toutes lettres sur la facture imprimée</li>
+          <li data-i18n="f4.d">Colis confiés aux sociétés de livraison depuis la vente, sans ressaisie</li>
         </ul>
       </div>
       <div class="shot">
@@ -195,13 +214,13 @@
 
     <div class="feature">
       <div class="words">
-        <h3>Les rapports</h3>
-        <p>Ce qu'il faut pour savoir où on en est, et ce qu'il faut pour le déclarer.
+        <h3 data-i18n="f5.title">Les rapports</h3>
+        <p data-i18n="f5.body">Ce qu'il faut pour savoir où on en est, et ce qu'il faut pour le déclarer.
            Chaque rapport s'imprime ou part vers Excel.</p>
         <ul>
-          <li>Ventes, achats, stock, financier, marge par article</li>
-          <li>Déclaration TVA (G50), état 104 clients, G12 salaires</li>
-          <li>Créances clients, dettes fournisseurs, encaissements par mode</li>
+          <li data-i18n="f5.a">Ventes, achats, stock, financier, marge par article</li>
+          <li data-i18n="f5.b">Déclaration TVA (G50), état 104 clients, G12 salaires</li>
+          <li data-i18n="f5.c">Créances clients, dettes fournisseurs, encaissements par mode</li>
         </ul>
       </div>
       <div class="shot">
@@ -212,13 +231,13 @@
 
     <div class="feature">
       <div class="words">
-        <h3>Et sur le téléphone</h3>
-        <p>La même application sur Android : soit un magasin entier dans la poche, soit une caisse
+        <h3 data-i18n="f6.title">Et sur le téléphone</h3>
+        <p data-i18n="f6.body">La même application sur Android : soit un magasin entier dans la poche, soit une caisse
            de plus reliée à l'ordinateur du magasin, sur le même wifi.</p>
         <ul>
-          <li>La caméra du téléphone comme scanner de codes-barres</li>
-          <li>Inventaire dans les rayons, sans revenir au comptoir</li>
-          <li>Ventes, achats et articles, adaptés à l'écran</li>
+          <li data-i18n="f6.a">La caméra du téléphone comme scanner de codes-barres</li>
+          <li data-i18n="f6.b">Inventaire dans les rayons, sans revenir au comptoir</li>
+          <li data-i18n="f6.c">Ventes, achats et articles, adaptés à l'écran</li>
         </ul>
       </div>
       <div class="shot phone">
@@ -229,45 +248,208 @@
   </section>
 
   <section>
-    <h2>Le reste, en bref</h2>
+    <h2 data-i18n="brief.title">Le reste, en bref</h2>
     <ul class="what">
-      <li>Plusieurs sociétés sur la même machine, séparées.</li>
-      <li>Plusieurs utilisateurs, chacun avec ses droits.</li>
-      <li>Clients, fournisseurs, règlements, dépenses et caisse.</li>
-      <li>Paie et fiches de salaire.</li>
-      <li>Sauvegarde automatique, sur le disque et sur Google Drive.</li>
-      <li>Mise à jour proposée dans l'application, jamais imposée.</li>
-      <li>Imprimantes thermiques 58 et 80 mm, étiqueteuses USB.</li>
-      <li>Corbeille : rien n'est perdu par un clic de trop.</li>
+      <li data-i18n="brief.a">Plusieurs sociétés sur la même machine, séparées.</li>
+      <li data-i18n="brief.b">Plusieurs utilisateurs, chacun avec ses droits.</li>
+      <li data-i18n="brief.c">Clients, fournisseurs, règlements, dépenses et caisse.</li>
+      <li data-i18n="brief.d">Paie et fiches de salaire.</li>
+      <li data-i18n="brief.e">Sauvegarde automatique, sur le disque et sur Google Drive.</li>
+      <li data-i18n="brief.f">Mise à jour proposée dans l'application, jamais imposée.</li>
+      <li data-i18n="brief.g">Imprimantes thermiques 58 et 80 mm, étiqueteuses USB.</li>
+      <li data-i18n="brief.h">Corbeille : rien n'est perdu par un clic de trop.</li>
     </ul>
   </section>
 
   <section class="about">
     <h2>NeoXS Dev</h2>
-    <p>NeoXS Dev conçoit et développe des logiciels pour les commerces et les ateliers en Algérie.
+    <p data-i18n="about.body">NeoXS Dev conçoit et développe des logiciels pour les commerces et les ateliers en Algérie.
        NeoStock est notre logiciel de gestion de magasin ; il est utilisé tous les jours, et il
        avance avec ce que les commerçants nous demandent.</p>
   </section>
 
   <section class="contact" id="contact">
-    <h2>Nous joindre</h2>
-    <p>Une question, une démonstration, un besoin particulier — ou simplement de l'aide à l'installation.</p>
+    <h2 data-i18n="contact.title">Nous joindre</h2>
+    <p data-i18n="contact.body">Une question, une démonstration, un besoin particulier — ou simplement de l'aide à l'installation.</p>
     <ul>
-      <li>Téléphone et WhatsApp : <a href="tel:+213540669465">+213 5 40 66 94 65</a></li>
-      <li>WhatsApp direct : <a href="https://wa.me/213540669465">wa.me/213540669465</a></li>
-      <li>E-mail : <a href="mailto:neoxsdz@gmail.com">neoxsdz@gmail.com</a></li>
+      <li><span data-i18n="contact.phone">Téléphone et WhatsApp</span> : <a href="tel:+213540669465">+213 5 40 66 94 65</a></li>
+      <li><span data-i18n="contact.whatsapp">WhatsApp direct</span> : <a href="https://wa.me/213540669465">wa.me/213540669465</a></li>
+      <li><span data-i18n="contact.email">E-mail</span> : <a href="mailto:neoxsdz@gmail.com">neoxsdz@gmail.com</a></li>
     </ul>
   </section>
 
   <footer>
-    <a href="telecharger.html">Télécharger</a> ·
-    <a href="privacy.html">Confidentialité</a> ·
-    <a href="terms.html">Conditions</a> ·
+    <a href="telecharger.html" data-i18n="nav.download">Télécharger</a> ·
+    <a href="privacy.html" data-i18n="nav.privacy">Confidentialité</a> ·
+    <a href="terms.html" data-i18n="nav.terms">Conditions</a> ·
     <a href="mailto:neoxsdz@gmail.com">neoxsdz@gmail.com</a> ·
     <a href="tel:+213540669465">+213 5 40 66 94 65</a><br>
-    © NeoXS Dev — NeoStock est un logiciel NeoXS Dev.
+    <span data-i18n="footer.line">© NeoXS Dev — NeoStock est un logiciel NeoXS Dev.</span>
   </footer>
 </main>
 
+<script>
+/*
+ * Three languages, the same three the application itself speaks.
+ *
+ * French is what is written in the page, so it is read out of the page on
+ * load rather than repeated here; only Arabic and English are carried. The
+ * choice is remembered per visitor and applies to the other pages too.
+ */
+const WORDS = {
+  ar: {
+    'nav.home': 'الرئيسية', 'nav.features': 'الوظائف', 'nav.download': 'تحميل',
+    'nav.contact': 'اتصل بنا', 'nav.privacy': 'الخصوصية', 'nav.terms': 'الشروط',
+    'hero.title': 'برامج تسيير للتجار في الجزائر',
+    'hero.body': 'أدوات تشتغل على جهاز التاجر، تحفظ معطياته عنده، وتتكلم لغة مهنته.',
+    'product.body': 'المخزون، المبيعات، الصندوق والتوصيل — على حاسوب المحل، دون الحاجة إلى اشتراك بالأنترنت للعمل. فوترة مطابقة للقوانين الجزائرية: الرسم على القيمة المضافة، الطابع الجبائي، NIF، NIS، RC، AI.',
+    'product.cta': 'تحميل NeoStock',
+    'features.title': 'ما يقوم به NeoStock، شاشة بشاشة',
+    'f1.title': 'المحل في لمحة',
+    'f1.body': 'عند الفتح: ما دخل اليوم، ما خرج، هامش الربح، وما نقص من الرفوف. آخر المبيعات وآخر المشتريات أمامك، دون البحث عنها.',
+    'f1.a': 'مبيعات اليوم والشهر، الربح والرصيد الصافي',
+    'f1.b': 'تنبيهات نقص المخزون، مرتبة حسب الأكثر مبيعًا',
+    'f1.c': 'بيع سريع وشراء سريع بنقرة واحدة',
+    'f2.title': 'الصندوق',
+    'f2.body': 'صندوق مصمم للسرعة: المنتجات في صور مصغّرة، قارئ الباركود، التذكرة على الطابعة الحرارية، والفاتورة على ورق A4.',
+    'f2.a': 'نقرة للإضافة، نقرة يمنى للإنقاص',
+    'f2.b': 'وضع القارئ: تمسح، تقبض، تطبع',
+    'f2.c': 'ثلاثة أسعار — التجزئة، الجملة، VIP — لنفس المنتج',
+    'f2.d': 'زبون عابر أو زبون متابَع، حسب اختيارك',
+    'f3.title': 'المنتجات والمخزون',
+    'f3.body': 'الكتالوج كاملًا، مع الكميات في كل مستودع وأسعار الشراء والبيع. كل حركة تترك أثرًا، ولا شيء يتحرك دون معرفة السبب.',
+    'f3.a': 'عدة مستودعات، تحويلات، جرد',
+    'f3.b': 'الباركود والملصقات للطباعة',
+    'f3.c': 'الاستيراد من ملف Excel أو CSV، مع إمكانية التراجع',
+    'f3.d': 'التكلفة الحقيقية لكل دفعة (FIFO)، أي هامش ربح صحيح',
+    'f4.title': 'الوثائق',
+    'f4.body': 'عرض سعر، فاتورة شكلية، وصل تسليم، فاتورة، إشعار دائن، طلبية زبون — ومن جهة المورّد: سند طلب، استلام وفاتورة. نفس الدفتر، بالفرنسية أو العربية أو الإنجليزية.',
+    'f4.a': 'ترقيم متسلسل، حالة الدفع، والباقي للدفع',
+    'f4.b': 'الرسم على القيمة المضافة والطابع الجبائي محسوبان حسب القانون الجزائري',
+    'f4.c': 'المبلغ بالحروف على الفاتورة المطبوعة',
+    'f4.d': 'الطرود تُسلَّم لشركات التوصيل من صفحة البيع، دون إعادة كتابة',
+    'f5.title': 'التقارير',
+    'f5.body': 'ما تحتاجه لتعرف أين أنت، وما تحتاجه للتصريح. كل تقرير يُطبع أو يُصدَّر إلى Excel.',
+    'f5.a': 'المبيعات، المشتريات، المخزون، المالية، هامش الربح لكل منتج',
+    'f5.b': 'تصريح الرسم على القيمة المضافة (G50)، الكشف 104 للزبائن، G12 للأجور',
+    'f5.c': 'ديون الزبائن، ديون الموردين، التحصيلات حسب طريقة الدفع',
+    'f6.title': 'وعلى الهاتف',
+    'f6.body': 'نفس التطبيق على Android: إمّا محل كامل في الجيب، أو صندوق إضافي مرتبط بحاسوب المحل على نفس الواي فاي.',
+    'f6.a': 'كاميرا الهاتف كقارئ باركود',
+    'f6.b': 'الجرد في الرفوف، دون العودة إلى الصندوق',
+    'f6.c': 'المبيعات والمشتريات والمنتجات، مهيّأة لشاشة الهاتف',
+    'brief.title': 'والباقي، باختصار',
+    'brief.a': 'عدة شركات على نفس الجهاز، منفصلة عن بعضها.',
+    'brief.b': 'عدة مستخدمين، لكل واحد صلاحياته.',
+    'brief.c': 'الزبائن، الموردون، التسديدات، المصاريف والصندوق.',
+    'brief.d': 'الأجور وكشوف الرواتب.',
+    'brief.e': 'نسخ احتياطي تلقائي، على القرص وعلى Google Drive.',
+    'brief.f': 'التحديث يُقترح داخل التطبيق، ولا يُفرض أبدًا.',
+    'brief.g': 'طابعات حرارية 58 و80 مم، وطابعات ملصقات USB.',
+    'brief.h': 'سلة المهملات: لا شيء يضيع بنقرة زائدة.',
+    'about.body': 'NeoXS Dev تصمّم وتطوّر برامج للمحلات والورشات في الجزائر. NeoStock هو برنامجنا لتسيير المحلات؛ يُستعمل كل يوم، ويتطوّر بما يطلبه منّا التجار.',
+    'contact.title': 'اتصل بنا',
+    'contact.body': 'سؤال، عرض توضيحي، حاجة خاصة — أو ببساطة مساعدة في التثبيت.',
+    'contact.phone': 'الهاتف وواتساب', 'contact.whatsapp': 'واتساب مباشرة', 'contact.email': 'البريد الإلكتروني',
+    'footer.line': '© NeoXS Dev — NeoStock برنامج من NeoXS Dev.',
+  },
+  en: {
+    'nav.home': 'Home', 'nav.features': 'Features', 'nav.download': 'Download',
+    'nav.contact': 'Contact', 'nav.privacy': 'Privacy', 'nav.terms': 'Terms',
+    'hero.title': 'Business software for Algerian shops',
+    'hero.body': 'Tools that run on the shopkeeper’s own machines, keep the data where it belongs, and speak the language of the trade.',
+    'product.body': 'Stock, sales, counter and delivery — on the shop’s computer, with no Internet subscription needed to work. Invoicing that follows Algerian rules: TVA, stamp duty, NIF, NIS, RC, AI.',
+    'product.cta': 'Download NeoStock',
+    'features.title': 'What NeoStock does, screen by screen',
+    'f1.title': 'The shop at a glance',
+    'f1.body': 'When you open up: what came in today, what went out, the margin, what is missing from the shelves. The latest sales and purchases are there without going to look for them.',
+    'f1.a': 'Sales for the day and the month, profit and net balance',
+    'f1.b': 'Low-stock alerts, ordered by what sells the most',
+    'f1.c': 'Quick sale and quick purchase in one click',
+    'f2.title': 'The counter',
+    'f2.body': 'A till built for speed: articles as tiles, the barcode scanner, the ticket on the thermal printer, the invoice on A4.',
+    'f2.a': 'Click to add, right-click to take one off',
+    'f2.b': 'Scanner mode: scan, take the money, print',
+    'f2.c': 'Three prices — retail, wholesale, VIP — on the same article',
+    'f2.d': 'Walk-in customer or a customer on account, as you like',
+    'f3.title': 'Articles and stock',
+    'f3.body': 'The whole catalogue, with quantities per warehouse and both buying and selling prices. Every movement leaves a trace, and nothing moves without a reason on record.',
+    'f3.a': 'Several warehouses, transfers, stocktaking',
+    'f3.b': 'Barcodes and labels to print',
+    'f3.c': 'Import from an Excel or CSV file, with undo',
+    'f3.d': 'Real cost per batch (FIFO), so the margin is honest',
+    'f4.title': 'Documents',
+    'f4.body': 'Quote, proforma, delivery note, invoice, credit note, sales order — and on the supplier side, purchase order, reception and invoice. The same book, in French, Arabic or English.',
+    'f4.a': 'Running numbering, payment status, amount left to pay',
+    'f4.b': 'TVA and stamp duty worked out by the Algerian rules',
+    'f4.c': 'The amount spelled out in words on the printed invoice',
+    'f4.d': 'Parcels handed to the delivery companies straight from the sale, without retyping',
+    'f5.title': 'Reports',
+    'f5.body': 'What you need to know where you stand, and what you need to declare it. Every report prints or goes to Excel.',
+    'f5.a': 'Sales, purchases, stock, financial, margin per article',
+    'f5.b': 'TVA declaration (G50), form 104 for customers, G12 for wages',
+    'f5.c': 'Customer debts, supplier debts, takings by payment method',
+    'f6.title': 'And on the phone',
+    'f6.body': 'The same application on Android: either a whole shop in your pocket, or one more till tied to the shop’s computer over the same wifi.',
+    'f6.a': 'The phone’s camera as a barcode scanner',
+    'f6.b': 'Stocktaking in the aisles, without walking back to the counter',
+    'f6.c': 'Sales, purchases and articles, laid out for the screen',
+    'brief.title': 'The rest, in short',
+    'brief.a': 'Several companies on the same machine, kept apart.',
+    'brief.b': 'Several users, each with their own rights.',
+    'brief.c': 'Customers, suppliers, settlements, expenses and the cash box.',
+    'brief.d': 'Payroll and pay slips.',
+    'brief.e': 'Automatic backup, to the disk and to Google Drive.',
+    'brief.f': 'Updates offered inside the application, never forced.',
+    'brief.g': 'Thermal printers, 58 and 80 mm, and USB label printers.',
+    'brief.h': 'A trash bin: nothing is lost to one click too many.',
+    'about.body': 'NeoXS Dev designs and builds software for shops and workshops in Algeria. NeoStock is our shop-management program; it is used every day, and it moves forward with what shopkeepers ask us for.',
+    'contact.title': 'Get in touch',
+    'contact.body': 'A question, a demonstration, a particular need — or simply help with the installation.',
+    'contact.phone': 'Phone and WhatsApp', 'contact.whatsapp': 'WhatsApp directly', 'contact.email': 'E-mail',
+    'footer.line': '© NeoXS Dev — NeoStock is a NeoXS Dev program.',
+  },
+}
+
+const TITLES = {
+  fr: 'NeoXS Dev — logiciels pour les commerces algériens',
+  ar: 'NeoXS Dev — برامج تسيير للتجار في الجزائر',
+  en: 'NeoXS Dev — business software for Algerian shops',
+}
+
+const pieces = [...document.querySelectorAll('[data-i18n]')]
+WORDS.fr = {}
+for (const piece of pieces) {
+  if (!(piece.dataset.i18n in WORDS.fr)) WORDS.fr[piece.dataset.i18n] = piece.innerHTML
+}
+
+function speak(language) {
+  const words = WORDS[language] || WORDS.fr
+  for (const piece of pieces) {
+    const said = words[piece.dataset.i18n]
+    if (said !== undefined) piece.innerHTML = said
+  }
+  document.documentElement.lang = language
+  document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
+  document.title = TITLES[language] || TITLES.fr
+  for (const button of document.querySelectorAll('.langs button')) {
+    button.setAttribute('aria-pressed', String(button.dataset.lang === language))
+  }
+  try { localStorage.setItem('neoxs.lang', language) } catch { /* a private window; the choice simply is not kept */ }
+}
+
+for (const button of document.querySelectorAll('.langs button')) {
+  button.addEventListener('click', () => speak(button.dataset.lang))
+}
+
+// The language the visitor picked last, or the one their browser asks for.
+let chosen
+try { chosen = localStorage.getItem('neoxs.lang') } catch { chosen = null }
+if (!chosen) {
+  const asked = (navigator.language || 'fr').slice(0, 2).toLowerCase()
+  chosen = asked === 'ar' || asked === 'en' ? asked : 'fr'
+}
+speak(chosen)
+</script>
 </body>
 </html>
