@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Télécharger NeoStock</title>
+<meta name="description" content="Télécharger NeoStock, le logiciel de gestion de stock et de ventes pour les commerces algériens.">
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: #f8fafc;
+  }
+  main { max-width: 44rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+
+  .brand { display: flex; align-items: center; gap: .75rem; margin-bottom: 2.5rem; }
+  .mark {
+    width: 3rem; height: 3rem; border-radius: .9rem; background: var(--primary);
+    color: #fff; font-weight: 700; font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .brand h1 { font-size: 1.35rem; margin: 0; }
+  .brand p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 1rem;
+    padding: 2rem 1.75rem; box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+  }
+  .card h2 { margin: 0 0 .35rem; font-size: 1.25rem; }
+  .card .sub { margin: 0 0 1.5rem; color: var(--muted); }
+
+  .download {
+    display: inline-flex; align-items: center; gap: .65rem;
+    background: var(--primary); color: #fff; text-decoration: none;
+    padding: .95rem 1.6rem; border-radius: .75rem; font-weight: 600; font-size: 1.05rem;
+  }
+  .download:hover { background: var(--primary-dark); }
+  .download[aria-disabled="true"] { background: #94a3b8; pointer-events: none; }
+  .meta { margin: .85rem 0 0; color: var(--muted); font-size: .9rem; }
+
+  .note {
+    margin-top: 1.5rem; padding: .9rem 1rem; border-radius: .7rem;
+    background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: .9rem;
+  }
+  .note strong { display: block; margin-bottom: .15rem; }
+
+  .phone { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: .95rem; }
+  .phone a { color: var(--primary); }
+
+  footer {
+    margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: .875rem;
+  }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">
+    <div class="mark">N</div>
+    <div>
+      <h1>NeoStock</h1>
+      <p>Gestion de stock, ventes et caisse</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Télécharger pour Windows</h2>
+    <p class="sub">Un seul fichier à télécharger, puis à ouvrir. Vos données restent sur votre ordinateur.</p>
+
+    <a class="download" id="download" href="https://github.com/neoxsdz-byte/neostock-releases/releases/latest" aria-disabled="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      <span id="download-label">Télécharger NeoStock</span>
+    </a>
+    <p class="meta" id="meta">Recherche de la dernière version…</p>
+
+    <div class="note">
+      <strong>Windows peut afficher un avertissement.</strong>
+      Cliquez sur « Informations complémentaires », puis « Exécuter quand même ». NeoStock n'est pas encore
+      signé auprès de Microsoft.
+    </div>
+
+    <p class="phone">
+      Téléphone Android : <a id="apk" href="https://github.com/neoxsdz-byte/neostock-releases/releases/latest">télécharger l'application</a>.
+      À installer depuis le téléphone, en autorisant l'installation depuis cette source.
+    </p>
+  </div>
+
+
+  <footer>
+    <a href="index.html">NeoStock</a> ·
+    <a href="privacy.html">Confidentialité</a> ·
+    <a href="terms.html">Conditions</a> ·
+    <a href="mailto:neoxsdz@gmail.com">neoxsdz@gmail.com</a>
+  </footer>
+</main>
+
+<script>
+/*
+ * The page asks GitHub which version is current, so nothing here has to be
+ * edited when a new one is published. Until the answer arrives — or if it never
+ * does, on a phone with no line — the button still points at the releases page,
+ * which is a working, if plainer, way to the same file.
+ */
+(async function () {
+  const button = document.getElementById('download')
+  const label = document.getElementById('download-label')
+  const meta = document.getElementById('meta')
+  const apk = document.getElementById('apk')
+
+  const megabytes = bytes => (bytes / 1048576).toFixed(0)
+  const day = iso => new Date(iso).toLocaleDateString('fr-DZ', { day: 'numeric', month: 'long', year: 'numeric' })
+
+  try {
+    const release = await fetch('https://api.github.com/repos/neoxsdz-byte/neostock-releases/releases/latest')
+      .then(answer => answer.json())
+
+    const installer = (release.assets || []).find(asset => asset.name.endsWith('.exe'))
+    const android = (release.assets || []).find(asset => asset.name.endsWith('.apk'))
+    if (!installer) throw new Error('no installer on the latest release')
+
+    button.href = installer.browser_download_url
+    button.setAttribute('aria-disabled', 'false')
+    label.textContent = 'Télécharger NeoStock ' + release.tag_name.replace(/^v/, '')
+    meta.textContent = 'Version ' + release.tag_name.replace(/^v/, '')
+      + ' · ' + megabytes(installer.size) + ' Mo · ' + day(release.published_at)
+      + ' · Windows 10 ou 11 (64 bits)'
+
+    if (android) {
+      apk.href = android.browser_download_url
+      apk.textContent = 'télécharger l\'application (' + megabytes(android.size) + ' Mo)'
+    }
+
+  } catch (problem) {
+    // The releases page is the honest fallback: one more click, same file.
+    button.setAttribute('aria-disabled', 'false')
+    meta.textContent = 'Ouvrir la page des versions pour télécharger la dernière.'
+  }
+})()
+</script>
+</body>
+</html>
